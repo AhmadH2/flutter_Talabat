@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:talabat_application/menueItemsPage.dart';
-import 'package:talabat_application/restaurant.dart';
+import 'restaurant.dart';
 
 class RestaurantMainPage extends StatefulWidget {
   final List<Restaurant> restaurants;

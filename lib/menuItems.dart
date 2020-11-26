@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant/favoriteList.dart';
+import 'package:restaurant/menuItemsModel.dart';
 
-import 'db.dart';
 import 'db.dart';
 import 'dish.dart';
 import 'package:restaurant/ordered.dart';
@@ -17,12 +18,15 @@ class _MyAppState extends State<MenuItemsList> {
   List<Dish> orderedDishes = [];
   List<int> favoriteDishesIndeces = [];
 
-  void _setFavorite(int index) {
-    dishes[index].isFavorite = true;
-  }
+  // void _setFavorite(int index) {
+  //   Provider.of<MenuItemsModel>(context, listen: false).setFavorite(index);
+  //   setState(() {});
+  // }
 
   void _order(int index) {
-    this.orderedDishes.add(dishes[index]);
+    this
+        .orderedDishes
+        .add(Provider.of<MenuItemsModel>(context, listen: false).dishes[index]);
     setState(() {});
   }
 
@@ -56,16 +60,20 @@ class _MyAppState extends State<MenuItemsList> {
                 );
               }),
           Expanded(
-            child: ListView.builder(
-              itemCount: dishes.length,
-              itemBuilder: (BuildContext context, int index) {
-                return MenuItem(
-                  dish: dishes[index],
-                  addToFavorite: () {
-                    _setFavorite(index);
-                  },
-                  orderDish: () {
-                    _order(index);
+            child: Consumer<MenuItemsModel>(
+              builder: (context, mentuItems, child) {
+                return ListView.builder(
+                  itemCount: Provider.of<MenuItemsModel>(context, listen: false)
+                      .dishes
+                      .length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return MenuItem(
+                      dish: Provider.of<MenuItemsModel>(context, listen: false)
+                          .dishes[index],
+                      orderDish: () {
+                        _order(index);
+                      },
+                    );
                   },
                 );
               },
@@ -80,9 +88,9 @@ class _MyAppState extends State<MenuItemsList> {
 class MenuItem extends StatelessWidget {
   final Dish dish;
   final VoidCallback orderDish;
-  final VoidCallback addToFavorite;
+  // final VoidCallback addToFavorite;
 
-  MenuItem({@required this.dish, this.orderDish, this.addToFavorite});
+  MenuItem({@required this.dish, this.orderDish});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -108,6 +116,21 @@ class MenuItem extends StatelessWidget {
                     Text(this.dish.description),
                     Row(
                       children: [
+                        Consumer<MenuItemsModel>(
+                            builder: (context, dishes, child) {
+                          // bool isFavorite = dishes.isFavorite(dish);
+                          return IconButton(
+                              icon: Icon(
+                                dish.isFavorite
+                                    ? Icons.star
+                                    : Icons.star_border,
+                              ),
+                              onPressed: () {
+                                Provider.of<MenuItemsModel>(context,
+                                        listen: false)
+                                    .setFavorite(dish);
+                              });
+                        }),
                         // IconButton(
                         //     icon: Icon(
                         //       this.dish.isFavorite
@@ -139,7 +162,7 @@ class MenuItem extends StatelessWidget {
               ),
               RaisedButton(
                 child: Text('Add to Favorite'),
-                onPressed: addToFavorite,
+                onPressed: null,
                 color: Colors.blue,
                 textColor: Colors.yellow,
               ),

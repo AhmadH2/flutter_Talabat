@@ -6,6 +6,11 @@ class Dish {
   String image;
   bool isFavorite;
 
-  Dish(this.title, this.description, this.price, this.image, this.rating,
-      this.isFavorite);
+  Dish(
+      {this.title,
+      this.description,
+      this.price,
+      this.image,
+      this.rating,
+      this.isFavorite});
 }

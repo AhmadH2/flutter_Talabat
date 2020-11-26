@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant/menuItemsModel.dart';
 import 'db.dart';
 import 'dish.dart';
+import 'menuItems.dart';
 
 class FavoriteList extends StatefulWidget {
   FavoriteList() : super();
@@ -13,19 +16,15 @@ class FavoriteList extends StatefulWidget {
 }
 
 class _FavoriteState extends State<FavoriteList> {
-  List<Dish> favoriteDishes = [];
-  _FavoriteState() {
-    for (int i = 0; i < dishes.length; i++) {
-      if (dishes[i].isFavorite) {
-        favoriteDishes.add(dishes[i]);
-      }
-    }
-  }
+  // List<Dish> favoriteDishes;
+
+  _FavoriteState() {}
 
   void removeFromFavorite(index) {
-    dishes[dishes.indexOf(favoriteDishes[index])].isFavorite = false;
-    this.favoriteDishes.removeAt(index);
-
+    Provider.of<MenuItemsModel>(context, listen: false).setFavorite(
+        Provider.of<MenuItemsModel>(context, listen: false)
+            .getFavoriteDishes()[index]);
+    // this.favoriteDishes.removeAt(index);
     setState(() {});
   }
 
@@ -41,20 +40,26 @@ class _FavoriteState extends State<FavoriteList> {
                 child: Text('Go to Menu Page'),
                 onPressed: () {
                   Navigator.pop(context);
-                  setState(() {});
                 }),
             Expanded(
-              child: ListView.builder(
-                itemCount: favoriteDishes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return MenuItem(
-                    dish: favoriteDishes[index],
-                    deleteItem: () {
-                      removeFromFavorite(index);
-                    },
-                  );
-                },
-              ),
+              child: Consumer<MenuItemsModel>(
+                  builder: (context, mentuItems, child) {
+                return ListView.builder(
+                    itemCount:
+                        Provider.of<MenuItemsModel>(context, listen: false)
+                            .getFavoriteDishes()
+                            .length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return MenuItem(
+                        dish:
+                            Provider.of<MenuItemsModel>(context, listen: false)
+                                .getFavoriteDishes()[index],
+                        deleteItem: () {
+                          removeFromFavorite(index);
+                        },
+                      );
+                    });
+              }),
             ),
           ],
         ),
