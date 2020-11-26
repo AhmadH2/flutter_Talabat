@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant/favoriteList.dart';
 import 'package:restaurant/menuItemsModel.dart';
-
-import 'db.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'dish.dart';
 import 'package:restaurant/ordered.dart';
 
@@ -17,6 +17,30 @@ class MenuItemsList extends StatefulWidget {
 class _MyAppState extends State<MenuItemsList> {
   List<Dish> orderedDishes = [];
   List<int> favoriteDishesIndeces = [];
+
+  // Future<List<Dish>> futureDishes;
+
+  // Future<List<Dish>> fetchMenuItems() async {
+  //   final http.Response response =
+  //       await http.get("https://api.androidhive.info/json/movies.json");
+
+  //   if (response.statusCode == 200) {
+  //     // success, parse json data
+  //     List jsonArray = jsonDecode(response.body);
+  //     List<Dish> dishes = jsonArray.map((x) => Dish.fromJson(x)).toList();
+  //     return dishes;
+  //   } else {
+  //     throw Exception("Failed to load data");
+  //   }
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   this.futureDishes = fetchMenuItems();
+  //   Provider.of<MenuItemsModel>(context, listen: false)
+  //       // .setDishes(this.futureDishes);
+  // }
 
   // void _setFavorite(int index) {
   //   Provider.of<MenuItemsModel>(context, listen: false).setFavorite(index);

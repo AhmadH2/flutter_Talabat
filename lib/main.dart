@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant/loadingMenus.dart';
 import 'package:restaurant/menuItemsModel.dart';
 import 'menuItems.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         create: (context) => MenuItemsModel(),
         child: MaterialApp(
           title: 'Flutter Demo',
-          home: MenuItemsList(),
+          home: LoadingMenus(),
         ));
   }
 }

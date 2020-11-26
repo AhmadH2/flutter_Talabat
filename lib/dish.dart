@@ -13,4 +13,15 @@ class Dish {
       this.image,
       this.rating,
       this.isFavorite});
+
+  factory Dish.fromJson(dynamic jsonObject) {
+    return Dish(
+      title: jsonObject['name'],
+      description: jsonObject['descr'],
+      price: double.parse(jsonObject['price'].toString()),
+      image: jsonObject['image'],
+      rating: null,
+      isFavorite: false,
+    );
+  }
 }
