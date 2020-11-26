@@ -16,18 +16,6 @@ class FavoriteList extends StatefulWidget {
 }
 
 class _FavoriteState extends State<FavoriteList> {
-  // List<Dish> favoriteDishes;
-
-  _FavoriteState() {}
-
-  void removeFromFavorite(index) {
-    Provider.of<MenuItemsModel>(context, listen: false).setFavorite(
-        Provider.of<MenuItemsModel>(context, listen: false)
-            .getFavoriteDishes()[index]);
-    // this.favoriteDishes.removeAt(index);
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,8 +30,8 @@ class _FavoriteState extends State<FavoriteList> {
                   Navigator.pop(context);
                 }),
             Expanded(
-              child: Consumer<MenuItemsModel>(
-                  builder: (context, mentuItems, child) {
+              child:
+                  Consumer<MenuItemsModel>(builder: (context, favorite, child) {
                 return ListView.builder(
                     itemCount:
                         Provider.of<MenuItemsModel>(context, listen: false)
@@ -54,9 +42,6 @@ class _FavoriteState extends State<FavoriteList> {
                         dish:
                             Provider.of<MenuItemsModel>(context, listen: false)
                                 .getFavoriteDishes()[index],
-                        deleteItem: () {
-                          removeFromFavorite(index);
-                        },
                       );
                     });
               }),
@@ -70,9 +55,9 @@ class _FavoriteState extends State<FavoriteList> {
 
 class MenuItem extends StatelessWidget {
   final Dish dish;
-  final VoidCallback deleteItem;
+  // final VoidCallback deleteItem;
 
-  MenuItem({@required this.dish, @required this.deleteItem});
+  MenuItem({@required this.dish});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -98,13 +83,7 @@ class MenuItem extends StatelessWidget {
                     Text(this.dish.description),
                     Row(
                       children: [
-                        IconButton(
-                            icon: Icon(
-                              this.dish.isFavorite
-                                  ? Icons.star
-                                  : Icons.star_border,
-                            ),
-                            onPressed: null),
+                        IconButton(icon: Icon(Icons.star), onPressed: null),
                         Expanded(
                           child: Container(
                             alignment: Alignment.centerRight,
@@ -125,7 +104,10 @@ class MenuItem extends StatelessWidget {
                 child: Text('delete'),
                 color: Colors.red,
                 textColor: Colors.white,
-                onPressed: deleteItem,
+                onPressed: () {
+                  Provider.of<MenuItemsModel>(context, listen: false)
+                      .removeFromFavorite(dish);
+                },
               ),
               RaisedButton(
                 child: Text('Confirm'),

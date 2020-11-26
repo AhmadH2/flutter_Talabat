@@ -1,25 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant/main.dart';
 import 'dish.dart';
+import 'menuItemsModel.dart';
 
 class OrderedList extends StatefulWidget {
-  final List<Dish> orderedDishes;
-  OrderedList({this.orderedDishes}) : super();
+  // final List<Dish> orderedDishes;
+  // OrderedList({this.orderedDishes}) : super();
 
   @override
-  _OrderedState createState() => _OrderedState(this.orderedDishes);
+  _OrderedState createState() => _OrderedState();
 }
 
 class _OrderedState extends State<OrderedList> {
-  List<Dish> orderedDishes;
-  _OrderedState(this.orderedDishes);
+  // List<Dish> orderedDishes;
+  _OrderedState();
 
   double _calculate() {
     double total = 0;
-    for (int i = 0; i < orderedDishes.length; i++) {
-      total += orderedDishes[i].price;
-    }
+
+    Provider.of<MenuItemsModel>(context, listen: false)
+        .orderedDishes
+        .forEach((element) {
+      total += element.price;
+    });
     return total;
   }
 
@@ -37,24 +42,28 @@ class _OrderedState extends State<OrderedList> {
                   Navigator.pop(context);
                 }),
             Expanded(
-              child: ListView.builder(
-                itemCount: orderedDishes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return MenuItem(
-                    dish: orderedDishes[index],
-                    deleteItem: () {
-                      orderedDishes.removeAt(index);
-                      setState(() {});
-                    },
-                  );
-                },
-              ),
+              child: Consumer<MenuItemsModel>(builder: (context, menuI, child) {
+                return ListView.builder(
+                  itemCount: Provider.of<MenuItemsModel>(context, listen: false)
+                      .getOrderedDihes()
+                      .length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return MenuItem(
+                      dish: Provider.of<MenuItemsModel>(context, listen: false)
+                          .getOrderedDihes()[index],
+                    );
+                  },
+                );
+              }),
             ),
-            Container(
-              height: 50,
-              child: Text('Total Price to Pay: ${_calculate()}',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            ),
+            Consumer<MenuItemsModel>(builder: (context, price, child) {
+              return Container(
+                height: 50,
+                child: Text('Total Price to Pay: ${_calculate()}',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              );
+            })
           ],
         ),
       ),
@@ -64,9 +73,9 @@ class _OrderedState extends State<OrderedList> {
 
 class MenuItem extends StatelessWidget {
   final Dish dish;
-  final VoidCallback deleteItem;
+  // final VoidCallback deleteItem;
 
-  MenuItem({@required this.dish, @required this.deleteItem});
+  MenuItem({@required this.dish});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -119,7 +128,10 @@ class MenuItem extends StatelessWidget {
                 child: Text('delete'),
                 color: Colors.red,
                 textColor: Colors.white,
-                onPressed: deleteItem,
+                onPressed: () {
+                  Provider.of<MenuItemsModel>(context, listen: false)
+                      .unOrderDish(dish);
+                },
               ),
               RaisedButton(
                 child: Text('Confirm'),

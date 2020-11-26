@@ -10,6 +10,8 @@ import 'package:restaurant/ordered.dart';
 class MenuItemsList extends StatefulWidget {
   // This widget is the root of your application.
 
+  int id;
+  MenuItemsList();
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -17,6 +19,9 @@ class MenuItemsList extends StatefulWidget {
 class _MyAppState extends State<MenuItemsList> {
   List<Dish> orderedDishes = [];
   List<int> favoriteDishesIndeces = [];
+  int id;
+
+  _MyAppState();
 
   // Future<List<Dish>> futureDishes;
 
@@ -68,8 +73,7 @@ class _MyAppState extends State<MenuItemsList> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        OrderedList(orderedDishes: this.orderedDishes),
+                    builder: (context) => OrderedList(),
                   ),
                 );
               }),
@@ -142,10 +146,11 @@ class MenuItem extends StatelessWidget {
                       children: [
                         Consumer<MenuItemsModel>(
                             builder: (context, dishes, child) {
-                          // bool isFavorite = dishes.isFavorite(dish);
                           return IconButton(
                               icon: Icon(
-                                dish.isFavorite
+                                Provider.of<MenuItemsModel>(context,
+                                            listen: false)
+                                        .cheak(dish)
                                     ? Icons.star
                                     : Icons.star_border,
                               ),
@@ -155,13 +160,6 @@ class MenuItem extends StatelessWidget {
                                     .setFavorite(dish);
                               });
                         }),
-                        // IconButton(
-                        //     icon: Icon(
-                        //       this.dish.isFavorite
-                        //           ? Icons.star
-                        //           : Icons.star_border,
-                        //     ),
-                        //     onPressed: addToFavorite),
                         Expanded(
                           child: Container(
                             alignment: Alignment.centerRight,
@@ -180,7 +178,10 @@ class MenuItem extends StatelessWidget {
             children: [
               RaisedButton(
                 child: Text('Order'),
-                onPressed: orderDish,
+                onPressed: () {
+                  Provider.of<MenuItemsModel>(context, listen: false)
+                      .orderDish(dish);
+                },
                 color: Colors.green,
                 textColor: Colors.yellow,
               ),

@@ -5,6 +5,8 @@ class Dish {
   double rating;
   String image;
   bool isFavorite;
+  int id;
+  int rest_id;
 
   Dish(
       {this.title,
@@ -12,16 +14,17 @@ class Dish {
       this.price,
       this.image,
       this.rating,
-      this.isFavorite});
+      this.id,
+      this.rest_id});
 
   factory Dish.fromJson(dynamic jsonObject) {
     return Dish(
-      title: jsonObject['name'],
-      description: jsonObject['descr'],
-      price: double.parse(jsonObject['price'].toString()),
-      image: jsonObject['image'],
-      rating: null,
-      isFavorite: false,
-    );
+        title: jsonObject['name'],
+        description: jsonObject['descr'],
+        price: double.parse(jsonObject['price'].toString()),
+        image: jsonObject['image'],
+        rating: null,
+        id: jsonObject['id'],
+        rest_id: jsonObject['rest_id']);
   }
 }

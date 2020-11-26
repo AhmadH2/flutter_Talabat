@@ -2,34 +2,71 @@ import 'package:flutter/cupertino.dart';
 import 'dish.dart';
 
 class MenuItemsModel extends ChangeNotifier {
-//   List<Dish> dishes = [
-//     new Dish('Tinder', 'description', 25.0, 'tinder.jpg', 8.4, false),
-//     new Dish('Shawerma', 'description', 15.0, 'tinder.jpg', 8.4, false),
-//     new Dish('Konafa', 'description', 35.0, 'tinder.jpg', 8.4, false),
-//     new Dish('Tinder', 'description', 35.0, 'tinder.jpg', 8.4, false),
-//   ];
-
   List<Dish> favoriteDishes = [];
   List<Dish> dishes = [];
+  List<Dish> orderedDishes = [];
 
   void setDishes(List<Dish> dish) {
     this.dishes = dish;
-    // print(this.dishes.length);
+
+    // for (int i = 0; i < this.dishes.length; i++) {
+    //   this.favoriteDishes.forEach((element) {
+    //     if ((dishes[i].id == element.id) &&
+    //         (dishes[i].rest_id == element.rest_id)) {
+    //       // this.dishes[i].isFavorite = true;
+    //     }
+    //   });
+    // }
+    // notifyListeners();
+  }
+
+  bool cheak(Dish dish) {
+    bool flag = false;
+    this.favoriteDishes.forEach((element) {
+      if ((dish.id == element.id) && (dish.rest_id == element.rest_id)) {
+        flag = true;
+      }
+    });
+    return flag;
   }
 
   List<Dish> getFavoriteDishes() {
-    favoriteDishes.clear();
-    dishes.forEach((element) {
-      if (element.isFavorite) {
-        favoriteDishes.add(element);
-      }
-    });
     return favoriteDishes;
   }
 
+  List<Dish> getOrderedDihes() {
+    return this.orderedDishes;
+  }
+
+  void orderDish(Dish dish) {
+    this.orderedDishes.add(dish);
+    notifyListeners();
+  }
+
+  void unOrderDish(Dish dish) {
+    if (this.orderedDishes.indexOf(dish) != -1) {
+      this.orderedDishes.remove(dish);
+      notifyListeners();
+    }
+  }
+
+  bool existInFavorite(Dish dish) {
+    return favoriteDishes.indexOf(dish) != -1 ? true : false;
+  }
+
   void setFavorite(Dish dish) {
-    int index = this.dishes.indexOf(dish);
-    dishes[index].isFavorite = !dishes[index].isFavorite;
+    if (existInFavorite(dish)) {
+      favoriteDishes.remove(dish);
+    } else {
+      favoriteDishes.add(dish);
+    }
+    notifyListeners();
+  }
+
+  void removeFromFavorite(Dish dish) {
+    if (existInFavorite(dish)) {
+      this.favoriteDishes.remove(dish);
+    }
     notifyListeners();
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant/favoriteList.dart';
+import 'package:restaurant/loadingMenus.dart';
+import 'package:restaurant/menuItems.dart';
+import 'package:restaurant/ordered.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:talabat_application/menueItemsPage.dart';
 import 'restaurant.dart';
 
 class RestaurantMainPage extends StatefulWidget {
@@ -20,6 +23,28 @@ class _RestaurantMainPageState extends State<RestaurantMainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Restaurant List'),
+        actions: [
+          RaisedButton(
+            child: Text('Go to Favorite List'),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FavoriteList(),
+                  ));
+            },
+          ),
+          RaisedButton(
+            child: Text('Go to Ordered List'),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderedList(),
+                  ));
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: restaurants.length,
@@ -84,7 +109,7 @@ class RestaurantItem extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MenuItems(this.id)));
+                              builder: (context) => LoadingMenus(this.id)));
                     }),
                 RaisedButton(
                     child: Text('Rate'),

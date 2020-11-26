@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant/loadingMenus.dart';
 import 'package:restaurant/menuItemsModel.dart';
+import 'package:restaurant/welcomeLoadingScreen.dart';
 import 'menuItems.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         create: (context) => MenuItemsModel(),
         child: MaterialApp(
           title: 'Flutter Demo',
-          home: LoadingMenus(),
+          home: WelcomeLoadingScreen(),
         ));
   }
 }
