@@ -4,7 +4,6 @@ class Dish {
   double price;
   double rating;
   String image;
-  bool isFavorite;
   int id;
   int rest_id;
 
@@ -22,7 +21,7 @@ class Dish {
         title: jsonObject['name'],
         description: jsonObject['descr'],
         price: double.parse(jsonObject['price'].toString()),
-        image: jsonObject['image'],
+        image: 'tinder.jpg',
         rating: null,
         id: jsonObject['id'],
         rest_id: jsonObject['rest_id']);

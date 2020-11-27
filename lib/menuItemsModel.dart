@@ -1,23 +1,19 @@
 import 'package:flutter/cupertino.dart';
+import 'package:restaurant/restaurant.dart';
 import 'dish.dart';
 
 class MenuItemsModel extends ChangeNotifier {
   List<Dish> favoriteDishes = [];
   List<Dish> dishes = [];
   List<Dish> orderedDishes = [];
+  List<Restaurant> restaurants = [];
 
   void setDishes(List<Dish> dish) {
     this.dishes = dish;
+  }
 
-    // for (int i = 0; i < this.dishes.length; i++) {
-    //   this.favoriteDishes.forEach((element) {
-    //     if ((dishes[i].id == element.id) &&
-    //         (dishes[i].rest_id == element.rest_id)) {
-    //       // this.dishes[i].isFavorite = true;
-    //     }
-    //   });
-    // }
-    // notifyListeners();
+  void setRestaurants(List<Restaurant> restaurants) {
+    this.restaurants = restaurants;
   }
 
   bool cheak(Dish dish) {
@@ -39,11 +35,13 @@ class MenuItemsModel extends ChangeNotifier {
   }
 
   void orderDish(Dish dish) {
-    this.orderedDishes.add(dish);
+    orderedDishes.add(dish);
     notifyListeners();
   }
 
   void unOrderDish(Dish dish) {
+    // orderedDishes.remove(index);
+    // notifyListeners();
     if (this.orderedDishes.indexOf(dish) != -1) {
       this.orderedDishes.remove(dish);
       notifyListeners();
@@ -68,5 +66,15 @@ class MenuItemsModel extends ChangeNotifier {
       this.favoriteDishes.remove(dish);
     }
     notifyListeners();
+  }
+
+  String findRest(int restId) {
+    String restName = 'Unknown Restaurant';
+    for (int i = 0; i < restaurants.length; i++) {
+      if (restaurants[i].id == restId) {
+        restName = restaurants[i].name;
+      }
+    }
+    return restName;
   }
 }
