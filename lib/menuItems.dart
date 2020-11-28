@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant/dishItem.dart';
+import 'package:restaurant/item.dart';
 import 'package:restaurant/favoriteList.dart';
 import 'package:restaurant/menuItemsModel.dart';
 import 'package:toast/toast.dart';
@@ -22,9 +22,8 @@ class _MyAppState extends State<MenuItemsList> {
   _MyAppState();
 
   void _order(int index) {
-    this
-        .orderedDishes
-        .add(Provider.of<MenuItemsModel>(context, listen: false).dishes[index]);
+    this.orderedDishes.add(
+        Provider.of<MenuItemsModel>(context, listen: false).getDishes()[index]);
     setState(() {});
   }
 
@@ -86,30 +85,39 @@ class _MyAppState extends State<MenuItemsList> {
               }),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Consumer<MenuItemsModel>(
-              builder: (context, mentuItems, child) {
-                return ListView.builder(
-                  itemCount: Provider.of<MenuItemsModel>(context, listen: false)
-                      .dishes
-                      .length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return MenuItem(
-                      dish: Provider.of<MenuItemsModel>(context, listen: false)
-                          .dishes[index],
-                      orderDish: () {
-                        _order(index);
-                      },
-                    );
-                  },
-                );
-              },
+      body: Provider.of<MenuItemsModel>(context, listen: false)
+                  .getDishes()
+                  .length >
+              0
+          ? Column(
+              children: [
+                Expanded(
+                  child: Consumer<MenuItemsModel>(
+                    builder: (context, mentuItems, child) {
+                      return ListView.builder(
+                        itemCount:
+                            Provider.of<MenuItemsModel>(context, listen: false)
+                                .getDishes()
+                                .length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return MenuItem(
+                            dish: Provider.of<MenuItemsModel>(context,
+                                    listen: false)
+                                .getDishes()[index],
+                            orderDish: () {
+                              _order(index);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
+          : Center(
+              child: Text('No Menu Items available'),
             ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -124,7 +132,7 @@ class MenuItem extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          DishItem(
+          Item(
             title: dish.title,
             image: dish.image,
             rating: dish.rating,

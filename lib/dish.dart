@@ -21,7 +21,7 @@ class Dish {
         title: jsonObject['name'],
         description: jsonObject['descr'],
         price: double.parse(jsonObject['price'].toString()),
-        image: jsonObject['image'],
+        image: 'http://appback.ppu.edu/static/${jsonObject['image']}',
         rating: jsonObject['rating'],
         id: jsonObject['id'],
         rest_id: jsonObject['rest_id']);

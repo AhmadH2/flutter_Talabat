@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant/menuItemsModel.dart';
 import 'package:toast/toast.dart';
 import 'dish.dart';
-import 'dishItem.dart';
+import 'item.dart';
 import 'ordered.dart';
 
 class FavoriteList extends StatefulWidget {
@@ -101,7 +101,7 @@ class FavoriteItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(children: [
-        DishItem(
+        Item(
           title: dish.title,
           image: dish.image,
           rating: dish.rating,

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
-class DishItem extends StatelessWidget {
+class Item extends StatelessWidget {
   final String title;
   final String description;
   final String image;
   final double rating;
 
-  DishItem({this.title, this.image, this.rating, this.description});
+  Item({this.title, this.image, this.rating, this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class DishItem extends StatelessWidget {
       child: Column(children: [
         Row(children: [
           Image(
-            image: NetworkImage('$image'),
+            image: NetworkImage('${this.image}'),
             width: 180,
           ),
           Expanded(
@@ -31,10 +31,10 @@ class DishItem extends StatelessWidget {
                     ),
                     Text(this.description),
                     SmoothStarRating(
-                        allowHalfRating: false,
+                        allowHalfRating: true,
                         onRated: (v) {},
                         starCount: 5,
-                        rating: 4,
+                        rating: this.rating != null ? this.rating / 2 : 3,
                         size: 22.0,
                         isReadOnly: true,
                         filledIconData: Icons.star,

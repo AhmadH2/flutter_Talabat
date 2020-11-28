@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant/dishItem.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant/item.dart';
 import 'package:restaurant/favoriteList.dart';
 import 'package:restaurant/loadingMenus.dart';
+import 'package:restaurant/menuItemsModel.dart';
 import 'package:restaurant/ordered.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'restaurant.dart';
@@ -21,66 +23,72 @@ class _RestaurantMainPageState extends State<RestaurantMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.yellow[500],
-        title: Text(
-          'Restaurant List',
-          style: TextStyle(fontSize: 14, color: Colors.black),
+        appBar: AppBar(
+          backgroundColor: Colors.yellow[500],
+          title: Text(
+            'Restaurant List',
+            style: TextStyle(fontSize: 14, color: Colors.black),
+          ),
+          actions: [
+            RaisedButton(
+              color: Colors.yellow[800],
+              hoverColor: Colors.yellow[500],
+              splashColor: Colors.yellow[500],
+              focusColor: Colors.yellow[400],
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.favorite_border,
+                    size: 20,
+                  ),
+                  Text(' Favourite List'),
+                ],
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FavoriteList(),
+                    ));
+              },
+            ),
+            RaisedButton(
+              color: Colors.yellow[800],
+              hoverColor: Colors.yellow[500],
+              splashColor: Colors.yellow[500],
+              focusColor: Colors.yellow[400],
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.bookmark_border,
+                    size: 20,
+                  ),
+                  Text(' Ordered List'),
+                ],
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderedList(),
+                    ));
+              },
+            ),
+          ],
         ),
-        actions: [
-          RaisedButton(
-            color: Colors.yellow[800],
-            hoverColor: Colors.yellow[500],
-            splashColor: Colors.yellow[500],
-            focusColor: Colors.yellow[400],
-            child: Row(
-              children: [
-                Icon(
-                  Icons.favorite_border,
-                  size: 20,
-                ),
-                Text(' Favourite List'),
-              ],
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FavoriteList(),
-                  ));
-            },
-          ),
-          RaisedButton(
-            color: Colors.yellow[800],
-            hoverColor: Colors.yellow[500],
-            splashColor: Colors.yellow[500],
-            focusColor: Colors.yellow[400],
-            child: Row(
-              children: [
-                Icon(
-                  Icons.bookmark_border,
-                  size: 20,
-                ),
-                Text(' Ordered List'),
-              ],
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OrderedList(),
-                  ));
-            },
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: restaurants.length,
-        itemBuilder: (BuildContext context, index) {
-          return RestaurantItem(restaurants[index]);
-        },
-      ),
-    );
+        body: Provider.of<MenuItemsModel>(context, listen: false)
+                    .getRestaurants()
+                    .length >
+                0
+            ? ListView.builder(
+                itemCount: restaurants.length,
+                itemBuilder: (BuildContext context, index) {
+                  return RestaurantItem(restaurants[index]);
+                },
+              )
+            : Center(
+                child: Text('No Restaurants found!'),
+              ));
   }
 }
 
@@ -94,7 +102,7 @@ class RestaurantItem extends StatelessWidget {
       child: Card(
         child: Column(
           children: [
-            DishItem(
+            Item(
               title: restaurant.name,
               image: restaurant.image,
               rating: restaurant.rating.toDouble(),

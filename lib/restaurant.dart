@@ -4,6 +4,7 @@ class Restaurant {
   String city;
   int rating;
   String image;
+  double weight;
 
   Restaurant({this.name, this.city, this.rating, this.image, this.id});
   factory Restaurant.fromJson(dynamic jsonObject) {
@@ -11,7 +12,7 @@ class Restaurant {
       name: jsonObject['name'] as String,
       city: jsonObject['city'] as String,
       rating: jsonObject['rating'] as int,
-      image: jsonObject['image'] as String,
+      image: 'http://appback.ppu.edu/static/${jsonObject['image']}',
       id: jsonObject['id'] as int,
     );
   }

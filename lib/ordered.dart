@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'dish.dart';
-import 'dishItem.dart';
+import 'item.dart';
 import 'favoriteList.dart';
 import 'menuItemsModel.dart';
 
@@ -118,7 +118,7 @@ class OrderedItem extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          DishItem(
+          Item(
             title: dish.title,
             image: dish.image,
             rating: dish.rating,

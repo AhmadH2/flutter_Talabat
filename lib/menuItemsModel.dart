@@ -1,19 +1,38 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:restaurant/restaurant.dart';
 import 'dish.dart';
 
 class MenuItemsModel extends ChangeNotifier {
   List<Dish> favoriteDishes = [];
-  List<Dish> dishes = [];
+  List<Dish> _dishes = [];
   List<Dish> orderedDishes = [];
-  List<Restaurant> restaurants = [];
+  List<Restaurant> _restaurants = [];
 
   void setDishes(List<Dish> dish) {
-    this.dishes = dish;
+    this._dishes = dish;
   }
 
   void setRestaurants(List<Restaurant> restaurants) {
-    this.restaurants = restaurants;
+    List<Restaurant> rest = filter(restaurants);
+    this._restaurants = rest;
+  }
+
+  List<Restaurant> filter(List<Restaurant> list) {
+    int city = 0;
+
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].city == 'Hebron') {
+        city = 10;
+      } else {
+        city = 5;
+      }
+      list[i].weight = (list[i].rating + city) / 2;
+    }
+
+    list.sort((a, b) => b.weight.compareTo(a.weight));
+    return list;
   }
 
   bool cheakFavorite(Dish dish) {
@@ -22,6 +41,14 @@ class MenuItemsModel extends ChangeNotifier {
 
   List<Dish> getFavoriteDishes() {
     return favoriteDishes;
+  }
+
+  List<Restaurant> getRestaurants() {
+    return this._restaurants;
+  }
+
+  List<Dish> getDishes() {
+    return this._dishes;
   }
 
   List<Dish> getOrderedDihes() {
@@ -62,9 +89,9 @@ class MenuItemsModel extends ChangeNotifier {
 
   String findRest(int restId) {
     String restName = 'Unknown Restaurant';
-    for (int i = 0; i < restaurants.length; i++) {
-      if (restaurants[i].id == restId) {
-        restName = restaurants[i].name;
+    for (int i = 0; i < _restaurants.length; i++) {
+      if (_restaurants[i].id == restId) {
+        restName = _restaurants[i].name;
       }
     }
     return restName;
