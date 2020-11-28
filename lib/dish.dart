@@ -21,8 +21,8 @@ class Dish {
         title: jsonObject['name'],
         description: jsonObject['descr'],
         price: double.parse(jsonObject['price'].toString()),
-        image: 'tinder.jpg',
-        rating: null,
+        image: jsonObject['image'],
+        rating: jsonObject['rating'],
         id: jsonObject['id'],
         rest_id: jsonObject['rest_id']);
   }

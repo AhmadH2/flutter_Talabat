@@ -16,14 +16,8 @@ class MenuItemsModel extends ChangeNotifier {
     this.restaurants = restaurants;
   }
 
-  bool cheak(Dish dish) {
-    bool flag = false;
-    this.favoriteDishes.forEach((element) {
-      if ((dish.id == element.id) && (dish.rest_id == element.rest_id)) {
-        flag = true;
-      }
-    });
-    return flag;
+  bool cheakFavorite(Dish dish) {
+    return this.favoriteDishes.indexOf(dish) != -1 ? true : false;
   }
 
   List<Dish> getFavoriteDishes() {
@@ -40,8 +34,6 @@ class MenuItemsModel extends ChangeNotifier {
   }
 
   void unOrderDish(Dish dish) {
-    // orderedDishes.remove(index);
-    // notifyListeners();
     if (this.orderedDishes.indexOf(dish) != -1) {
       this.orderedDishes.remove(dish);
       notifyListeners();

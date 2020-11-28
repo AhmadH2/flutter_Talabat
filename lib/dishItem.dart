@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
-import 'dish.dart';
-
 class DishItem extends StatelessWidget {
   final String title;
   final String description;
@@ -16,8 +14,8 @@ class DishItem extends StatelessWidget {
     return Card(
       child: Column(children: [
         Row(children: [
-          Image.asset(
-            'assets/images/' + this.image,
+          Image(
+            image: NetworkImage('$image'),
             width: 180,
           ),
           Expanded(

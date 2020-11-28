@@ -2,11 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant/menuItemsModel.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:toast/toast.dart';
 import 'dish.dart';
 import 'dishItem.dart';
-import 'menuItems.dart';
 import 'ordered.dart';
 
 class FavoriteList extends StatefulWidget {
@@ -47,6 +45,7 @@ class _FavoriteState extends State<FavoriteList> {
                   ],
                 ),
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -79,7 +78,7 @@ class _FavoriteState extends State<FavoriteList> {
                             .getFavoriteDishes()
                             .length,
                     itemBuilder: (BuildContext context, int index) {
-                      return MenuItem(
+                      return FavoriteItem(
                         dish:
                             Provider.of<MenuItemsModel>(context, listen: false)
                                 .getFavoriteDishes()[index],
@@ -94,10 +93,10 @@ class _FavoriteState extends State<FavoriteList> {
   }
 }
 
-class MenuItem extends StatelessWidget {
+class FavoriteItem extends StatelessWidget {
   final Dish dish;
 
-  MenuItem({@required this.dish});
+  FavoriteItem({@required this.dish});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -111,28 +110,34 @@ class MenuItem extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
-              children: [
-                IconButton(
-                    icon: Icon(
-                      Provider.of<MenuItemsModel>(context, listen: false)
-                              .cheak(dish)
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                    ),
-                    color: Colors.yellow[900],
-                    splashColor: Colors.black,
-                    focusColor: Colors.red,
-                    iconSize: 22,
-                    onPressed: () {
-                      Provider.of<MenuItemsModel>(context, listen: false)
-                          .setFavorite(dish);
-                    }),
-                Text(
-                  'Remove From Favourite',
-                  style: TextStyle(fontSize: 18, color: Colors.yellow[900]),
-                ),
-              ],
+            GestureDetector(
+              onTap: () {
+                Provider.of<MenuItemsModel>(context, listen: false)
+                    .setFavorite(dish);
+              },
+              child: Row(
+                children: [
+                  IconButton(
+                      icon: Icon(
+                        Provider.of<MenuItemsModel>(context, listen: false)
+                                .cheakFavorite(dish)
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                      ),
+                      color: Colors.yellow[900],
+                      splashColor: Colors.black,
+                      focusColor: Colors.red,
+                      iconSize: 22,
+                      onPressed: () {
+                        Provider.of<MenuItemsModel>(context, listen: false)
+                            .setFavorite(dish);
+                      }),
+                  Text(
+                    'Remove From Favourite',
+                    style: TextStyle(fontSize: 18, color: Colors.yellow[900]),
+                  ),
+                ],
+              ),
             ),
             RaisedButton(
               color: Colors.amber[900],
@@ -144,7 +149,7 @@ class MenuItem extends StatelessWidget {
               onPressed: () {
                 Provider.of<MenuItemsModel>(context, listen: false)
                     .orderDish(dish);
-                Toast.show('Ordered Successfuly', context, duration: 3);
+                Toast.show('Ordered Successfuly', context, duration: 2);
               },
             ),
           ],

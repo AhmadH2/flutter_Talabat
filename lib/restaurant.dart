@@ -6,13 +6,13 @@ class Restaurant {
   String image;
 
   Restaurant({this.name, this.city, this.rating, this.image, this.id});
-  factory Restaurant.fromJson(dynamic json) {
+  factory Restaurant.fromJson(dynamic jsonObject) {
     return Restaurant(
-      name: json['name'] as String,
-      city: json['city'] as String,
-      rating: json['rating'] as int,
-      image: 'tinder.jpg',
-      id: json['id'] as int,
+      name: jsonObject['name'] as String,
+      city: jsonObject['city'] as String,
+      rating: jsonObject['rating'] as int,
+      image: jsonObject['image'] as String,
+      id: jsonObject['id'] as int,
     );
   }
 }

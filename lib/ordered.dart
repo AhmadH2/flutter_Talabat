@@ -1,17 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant/main.dart';
-import 'package:restaurant/restaurant.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:toast/toast.dart';
 import 'dish.dart';
 import 'dishItem.dart';
 import 'favoriteList.dart';
 import 'menuItemsModel.dart';
-import 'package:http/http.dart' as http;
 
 class OrderedList extends StatefulWidget {
   @override
@@ -58,6 +52,7 @@ class _OrderedState extends State<OrderedList> {
                   ],
                 ),
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -114,96 +109,6 @@ class _OrderedState extends State<OrderedList> {
   }
 }
 
-// class OrderedItem extends StatefulWidget {
-//   final Dish dish;
-//   final int index;
-
-//   const OrderedItem({Key key, this.dish, this.index}) : super(key: key);
-//   @override
-//   _OrderedItemState createState() => _OrderedItemState(this.dish, this.index);
-// }
-
-// class _OrderedItemState extends State<OrderedItem> {
-//   Future<Restaurant> restaurant;
-//   final Dish dish;
-//   final int index;
-
-//   Future<Restaurant> fetchRestaurant() async {
-//     http.Response response =
-//         await http.get('http://appback.ppu.edu/restaurants/${dish.rest_id}');
-//     if (response.statusCode == 200) {
-//       //success, parse json data
-//       List jsonRestaurant = jsonDecode(response.body);
-//       Restaurant restaurant = Restaurant.fromJson(jsonRestaurant[0]);
-//       return restaurant;
-//     } else {
-//       throw Exception("Failed to load data");
-//     }
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     this.restaurant = fetchRestaurant();
-//   }
-
-//   _OrderedItemState(this.dish, this.index);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         DishItem(
-//           title: dish.title,
-//           image: dish.image,
-//           rating: dish.rating,
-//           description: dish.description,
-//         ),
-//         FutureBuilder(
-//           future: this.restaurant,
-//           builder: (context, snapshot) {
-//             if (snapshot.hasData) {
-//               Restaurant rest = snapshot.data;
-//               return Text(rest.name);
-//             } else if (snapshot.hasError) {
-//               return Text("error ${snapshot.error}");
-//             }
-//             return Center(child: CircularProgressIndicator());
-//           },
-//         ),
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//           children: [
-//             RaisedButton(
-//               child: Text('delete'),
-//               color: Colors.red,
-//               hoverColor: Colors.yellow[400],
-//               splashColor: Colors.yellow[400],
-//               focusColor: Colors.yellow[400],
-//               textColor: Colors.white,
-//               onPressed: () {
-//                 Provider.of<MenuItemsModel>(context, listen: false)
-//                     .unOrderDish(index);
-//                 setState(() {});
-//               },
-//             ),
-//             RaisedButton(
-//               child: Text('Confirm'),
-//               color: Colors.amber[900],
-//               hoverColor: Colors.yellow[400],
-//               splashColor: Colors.yellow[400],
-//               focusColor: Colors.yellow[400],
-//               textColor: Colors.white,
-//               onPressed: () {
-//                 print('confirmed successfully');
-//               },
-//             ),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 class OrderedItem extends StatelessWidget {
   final Dish dish;
 
@@ -244,7 +149,7 @@ class OrderedItem extends StatelessWidget {
                 focusColor: Colors.yellow[400],
                 textColor: Colors.white,
                 onPressed: () {
-                  print('confirmed successfully');
+                  Toast.show('Order sent Successfuly', context, duration: 2);
                 },
               ),
             ],

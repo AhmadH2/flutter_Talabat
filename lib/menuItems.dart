@@ -3,10 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant/dishItem.dart';
 import 'package:restaurant/favoriteList.dart';
 import 'package:restaurant/menuItemsModel.dart';
-import 'package:http/http.dart' as http;
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:toast/toast.dart';
-import 'dart:convert';
 import 'dish.dart';
 import 'package:restaurant/ordered.dart';
 
@@ -136,31 +133,37 @@ class MenuItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(
-                children: [
-                  Consumer<MenuItemsModel>(builder: (context, dishes, child) {
-                    return IconButton(
-                        icon: Icon(
-                          Provider.of<MenuItemsModel>(context, listen: false)
-                                  .cheak(dish)
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                        ),
-                        color: Colors.yellow[900],
-                        splashColor: Colors.black,
-                        highlightColor: Colors.yellow[900],
-                        focusColor: Colors.red,
-                        iconSize: 22,
-                        onPressed: () {
-                          Provider.of<MenuItemsModel>(context, listen: false)
-                              .setFavorite(dish);
-                        });
-                  }),
-                  Text(
-                    'Add To Favourite',
-                    style: TextStyle(fontSize: 16, color: Colors.yellow[900]),
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  Provider.of<MenuItemsModel>(context, listen: false)
+                      .setFavorite(dish);
+                },
+                child: Row(
+                  children: [
+                    Consumer<MenuItemsModel>(builder: (context, dishes, child) {
+                      return IconButton(
+                          icon: Icon(
+                            Provider.of<MenuItemsModel>(context, listen: false)
+                                    .cheakFavorite(dish)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                          ),
+                          color: Colors.yellow[900],
+                          splashColor: Colors.black,
+                          highlightColor: Colors.yellow[900],
+                          focusColor: Colors.red,
+                          iconSize: 22,
+                          onPressed: () {
+                            Provider.of<MenuItemsModel>(context, listen: false)
+                                .setFavorite(dish);
+                          });
+                    }),
+                    Text(
+                      'Add To Favourite',
+                      style: TextStyle(fontSize: 16, color: Colors.yellow[900]),
+                    ),
+                  ],
+                ),
               ),
               RaisedButton(
                 color: Colors.amber[900],

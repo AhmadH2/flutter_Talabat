@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant/dishItem.dart';
 import 'package:restaurant/favoriteList.dart';
 import 'package:restaurant/loadingMenus.dart';
-import 'package:restaurant/menuItems.dart';
 import 'package:restaurant/ordered.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'restaurant.dart';
@@ -101,35 +100,6 @@ class RestaurantItem extends StatelessWidget {
               rating: restaurant.rating.toDouble(),
               description: '',
             ),
-            // Row(
-            //   // mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //   children: [
-            //     // Image(image: NetworkImage('$image')),
-            //     Image.asset(
-            //       'assets/images/' + this.restaurant.image,
-            //       width: 150,
-            //       // height: 100,
-            //     ),
-            //     Column(
-            //       children: [
-            //         Text(this.restaurant.name),
-            //         Text(this.restaurant.city),
-            //         SmoothStarRating(
-            //             allowHalfRating: false,
-            //             starCount: 5,
-            //             rating: double.parse('${this.restaurant.rating}'),
-            //             size: 22.0,
-            //             isReadOnly: true,
-            //             filledIconData: Icons.star,
-            //             halfFilledIconData: Icons.star_half,
-            //             defaultIconData: Icons.star_border,
-            //             color: Colors.yellow,
-            //             borderColor: Colors.yellow,
-            //             spacing: 0.0)
-            //       ],
-            //     )
-            //   ],
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -195,7 +165,6 @@ class RestaurantItem extends StatelessWidget {
                     )
                   ],
                 ),
-                actions: [],
               ),
             ],
           ),
